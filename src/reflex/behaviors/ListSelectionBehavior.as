@@ -46,6 +46,11 @@ package reflex.behaviors
 			}
 		}
 		
+		[EventListener(event="selectedItemChange", target="target.selection")]
+		public function onSelectedItemChanged(event:Event):void {
+			updateRenderers();
+		}
+		
 		public function onRendererRemoved(event:Event):void {
 			var renderer:IEventDispatcher= event.target as IEventDispatcher
 			removeRenderer(renderer)
@@ -80,13 +85,18 @@ package reflex.behaviors
 			} else {
 				_selection.selectedItem = renderer.data;
 			}
-			
-			// making wild assumptions about the existence of selected properties here
-			for each(var r:Object in renderers) {
-				r.selected = false;
-			}
-			(renderer as Object).selected = true;
+			updateRenderers();
 		}
+		
+		private function updateRenderers():void
+		{
+			var selectedItems:Array = _selection.selectedItems.toArray();
+			// making wild assumptions about the existence of selected properties here
+			for each(var renderer:Object in renderers) {
+				renderer.selected = ( selectedItems.indexOf( renderer.data ) > -1 );
+			}
+		}
+		
 		
 	}
 }

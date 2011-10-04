@@ -82,6 +82,7 @@
 							</includes>
 						</scan>
 					</includeClasses>
+					<swfVersion>13</swfVersion>
 				</configuration>
 				<dependencies>
 					<dependency>

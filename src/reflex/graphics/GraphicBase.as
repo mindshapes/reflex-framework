@@ -71,7 +71,7 @@ package reflex.graphics
 			unscaledWidth = _explicit.width = value; // this will dispatch for us if needed
 		}
 		
-		[PercentProxy("percentWidth")]
+		[PercentProxy("percentHeight")]
 		[Bindable(event="heightChange")]
 		override public function get height():Number { return unscaledHeight; }
 		override public function set height(value:Number):void {

@@ -26,6 +26,9 @@ package reflex.skins
 		}
 		
 		override protected function render(currentState:String):void {
+			
+			if( !graphics ) return;
+			
 			graphics.clear();
 			graphics.lineStyle(0,0,0);
 			graphics.beginFill(0, 0);

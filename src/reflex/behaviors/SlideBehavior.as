@@ -146,13 +146,13 @@ package reflex.behaviors
 		private function updateUILayout():void {
 			if(target && track && thumb) {
 				if(direction == HORIZONTAL) {
-					var h2:Number = (target as Object).height/2;
-					track.y = h2 - track.height/2;
-					thumb.y = h2 - thumb.height/2;
-				} else {
 					var w2:Number = (target as Object).width/2;
 					track.x = w2 - track.width/2;
 					thumb.x = w2 - thumb.width/2;
+				} else {
+					var h2:Number = (target as Object).height/2;
+					track.y = h2 - track.height/2;
+					thumb.y = h2 - thumb.height/2;
 				}
 			}
 		}

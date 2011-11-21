@@ -14,7 +14,11 @@
 	<version>1.0-SNAPSHOT</version>
 	<packaging>swc</packaging>
 	<name>reflex framework</name>
-
+	<scm>
+		<connection>scm:git:git://github.com:mindshapes/reflex-framework.git</connection>
+		<developerConnection>scm:git:git://github.com:mindshapes/reflex-framework.git</developerConnection>
+		<url>https://www.assembla.com/code/bootstrapper/git/nodes</url>
+	</scm>
 	<dependencies>
 		<dependency>
 			<groupId>com.adobe.flex.framework</groupId>

@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>reflex</groupId>
 	<artifactId>reflex-framework</artifactId>
-	<version>1.1-SNAPSHOT</version>
+	<version>1.1</version>
 	<packaging>swc</packaging>
 	<name>reflex framework</name>
 	<scm>

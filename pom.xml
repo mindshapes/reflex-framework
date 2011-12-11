@@ -115,4 +115,23 @@
 			<url>http://mindshapes-nexus01.managed.contegix.com:8081/nexus/content/repositories/snapshots</url>
 		</snapshotRepository>
 	</distributionManagement>
+	<profiles>
+		<profile>
+			<id>release_full</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.sonatype.flexmojos</groupId>
+						<artifactId>flexmojos-maven-plugin</artifactId>
+						<version>${flexmojos.version}</version>
+						<configuration>
+							<debug>false</debug>
+							<omitTraceStatements>true</omitTraceStatements>
+							<verboseStacktraces>false</verboseStacktraces>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>

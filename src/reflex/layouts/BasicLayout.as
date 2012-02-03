@@ -87,6 +87,7 @@ package reflex.layouts
 					width = rectangle.width - child.x - right;
 				} else if(hasStyle(child, "left")) {
 					child.x = Math.round(left);
+					width = Math.min( rectangle.width, width - left );
 				} else if(hasStyle(child, "right")) {
 					child.x = Math.round(rectangle.width - width - right);
 				} else if(hasStyle(child, "horizontalCenter")) {

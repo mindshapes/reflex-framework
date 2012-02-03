@@ -32,7 +32,7 @@ package reflex.skins
 			mask.fill = new SolidColor(0, 1);
 			mask.percentWidth = 100;
 			mask.percentHeight = 100;
-			container.mask = mask;
+			this.mask = container.mask = mask;
 			content = new SimpleCollection([container, mask]);
 		}
 		

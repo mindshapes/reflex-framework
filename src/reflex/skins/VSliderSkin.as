@@ -23,31 +23,33 @@ package reflex.skins
 			super();
 			unscaledWidth = 14;
 			track = new Sprite();
-			renderTrack(track.graphics);
+			renderTrack(track.graphics, unscaledWidth, unscaledHeight);
 			thumb = new Sprite();
-			renderThumb(thumb.graphics);
+			renderThumb(thumb.graphics, unscaledWidth, unscaledHeight);
 			//layout = new BasicLayout();
 			content = [track, thumb];
 			measured.width = 14;
 			measured.height = 170;
 		}
 		
-		override protected function render(currentState:String):void {
-			renderTrack(track.graphics);
-			renderThumb(thumb.graphics);
+		override public function setSize(width:Number, height:Number):void
+		{
+			// Render track before setSize called - invalidation process causes heightChanged and widthChanged events to be dispatched before child is updated. Meaning anything that accesses children directly will retrieve the old size.
+			renderTrack( track.graphics, width, height );
+			super.setSize( width, height );
 		}
 		
-		private function renderThumb(g:Graphics):void {
+		private function renderThumb(g:Graphics, width:Number, height:Number):void {
 			g.clear();
 			g.beginFill(0xFFFFFF, 1);
-			g.drawRect(0, 0, unscaledWidth, 14);
+			g.drawRect(0, 0, width, height);
 			g.endFill();
 		}
 		
-		private function renderTrack(g:Graphics):void {
+		private function renderTrack(g:Graphics, width:Number, height:Number):void {
 			g.clear();
 			g.beginFill(0x363636, 1);
-			g.drawRect(0, 0, unscaledWidth, unscaledHeight);
+			g.drawRect(0, 0, width, height);
 			g.endFill();
 		}
 		

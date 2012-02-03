@@ -1,9 +1,11 @@
 package reflex.behaviors
 {
 	
+	import flash.display.Graphics;
 	import flash.events.Event;
 	import flash.events.IEventDispatcher;
 	import flash.events.MouseEvent;
+	import flash.geom.Point;
 	
 	import reflex.binding.DataChange;
 	import reflex.data.IPagingPosition;
@@ -18,6 +20,7 @@ package reflex.behaviors
 		private var _track:Object;
 		private var _thumb:Object;
 		private var _position:IPosition;
+		private var _clickPoint:Point = new Point();
 		
 		public var page:Boolean = false;
 		public var layoutChildren:Boolean = true;
@@ -53,7 +56,7 @@ package reflex.behaviors
 		
 		// behavior
 		
-		[EventListener(event="click", target="track")]
+		[EventListener(event="mouseDown", target="track")]
 		public function onTrackPress(event:MouseEvent):void
 		{
 			var t:Object = target as Object;
@@ -73,34 +76,39 @@ package reflex.behaviors
 			updateUIPosition();
 		}
 		
-		
 		[EventListener(event="mouseDown", target="thumb")]
 		public function onThumbDown(event:MouseEvent):void
 		{
+			var target:Object = target as Object;
+			_clickPoint = new Point( target.mouseX - thumb.x, target.mouseY - thumb.y );
 			target.addEventListener(Event.ENTER_FRAME, onEnterFrame, false, 0, true);
-			(target as Object).stage.addEventListener(MouseEvent.MOUSE_UP, onThumbUp, false, 0, true);
-			(target as Object).stage.addEventListener(Event.MOUSE_LEAVE, onThumbUp, false, 0, true);
+			target.stage.addEventListener(MouseEvent.MOUSE_UP, onThumbUp, false, 0, true);
+			target.stage.addEventListener(Event.MOUSE_LEAVE, onThumbUp, false, 0, true);
 		}
 		
 		private function onThumbUp(event:MouseEvent):void {
+			var target:Object = target as Object;
+			_clickPoint = new Point();
 			target.removeEventListener(Event.ENTER_FRAME, onEnterFrame, false);
-			(target as Object).stage.removeEventListener(MouseEvent.MOUSE_UP, onThumbUp, false);
-			(target as Object).stage.removeEventListener(Event.MOUSE_LEAVE, onThumbUp, false);
+			target.stage.removeEventListener(MouseEvent.MOUSE_UP, onThumbUp, false);
+			target.stage.removeEventListener(Event.MOUSE_LEAVE, onThumbUp, false);
 		}
 		
 		private function onEnterFrame(event:Event):void {
 			var percent:Number = 0;
 			var t:Object = target as Object;
+			
 			if(direction == HORIZONTAL) {
-				percent = (t.mouseX - track.x)/track.width;
+				percent = (thumb.x - track.x)/(track.width-thumb.width);
+				thumb.x = Math.max(track.x, Math.min(track.x+track.width-thumb.width, t.mouseX - _clickPoint.x));
 			} else if(direction == VERTICAL) {
-				percent = (t.mouseY - track.y)/track.height;
+				percent = (thumb.y - track.y)/(track.height-thumb.height);
+				thumb.y = Math.max(track.y, Math.min(track.y+track.height-thumb.height, t.mouseY - _clickPoint.y));
 			}
+			
 			var value:Number = (position.maximum-position.minimum)*percent + position.minimum;
 			position.value = Math.max(position.minimum, Math.min(position.maximum, value));
-			updateUIPosition();
 		}
-		
 		
 		// skinpart positioning
 		
@@ -113,6 +121,7 @@ package reflex.behaviors
 		[EventListener(event="heightChange", target="target")]
 		public function onSizeChange(event:Event):void {
 			updateUILayout();
+			updateUIPosition();
 		}
 		
 		private function pagePosition(v:Number, length:Number):void {
@@ -139,6 +148,7 @@ package reflex.behaviors
 					thumb.x = track.x + (track.width-thumb.width) * percent;
 				} else if(direction == VERTICAL) {
 					thumb.y = track.y + (track.height-thumb.height) * percent;
+					//thumb.y = ( (track.y-_clickPoint.y) + (track.height) * percent );
 				}
 			}
 		}
@@ -151,7 +161,7 @@ package reflex.behaviors
 					thumb.x = w2 - thumb.width/2;
 				} else {
 					var h2:Number = (target as Object).height/2;
-					track.y = h2 - track.height/2;
+					/*track.y = h2 - track.height/2;*/
 					thumb.y = h2 - thumb.height/2;
 				}
 			}

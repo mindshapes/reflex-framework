@@ -33,7 +33,7 @@ package reflex.layouts
 		public var edging:Boolean = false;
 		public var horizontalAlign:String = "left";
 		
-		public function VerticalLayout(gap:Number = 5, horizontalAlign:String = "top", edging:Boolean = false):void {
+		public function VerticalLayout(gap:Number = 5, horizontalAlign:String = "left", edging:Boolean = false):void {
 			super();
 			this.gap = gap;
 			this.horizontalAlign = horizontalAlign;
@@ -67,11 +67,11 @@ package reflex.layouts
 				var availableSpace:Point = reflex.measurement.calculateAvailableSpace(children, rectangle);
 				var percentageTotals:Point = reflex.measurement.calculatePercentageTotals(children);
 				
-				
 				var position:Number = edging ? gap/2 : 0;
 				var length:int = children.length;
 				
 				availableSpace.y -= edging ? gap*length : gap*(length-1);
+				
 				for(var i:int = 0; i < length; i++) {
 					var child:Object = children[i];
 					var width:Number = reflex.measurement.resolveWidth(child, rectangle.width); // calculate percentWidths based on full width and with no normalization
